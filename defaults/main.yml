@@ -1,0 +1,9 @@
+---
+# defaults file for etcd
+
+ETCD_DATA_DIR: /var/lib/etcd/default.etcd
+
+
+
+
+
