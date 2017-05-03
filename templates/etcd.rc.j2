@@ -1,0 +1,1 @@
+alias etcdctl='ETCDCTL_ENDPOINT=https://{{ etcd_public_ip }}:2379 ETCDCTL_CERT_FILE=/etc/pki/etcd/etcd.crt ETCDCTL_KEY_FILE=/etc/pki/etcd/private/etcd.key ETCDCTL_CA_FILE=/etc/pki/etcd/cacert.pem etcdctl'

@@ -6,6 +6,10 @@
   with_items:
     - etcd
 
+- name: include tls.yml
+  include: tls.yml
+  when: etcd_tls_enabled is defined and etcd_tls_enabled == 'true'
+
 - name: template /etc/etcd/etcd.conf
   template: src=etc/etcd/etcd.conf.j2 dest=/etc/etcd/etcd.conf mode=644 backup=yes
   notify: restart etcd

@@ -1,0 +1,20 @@
+---
+
+- name: create directory for cert releated files
+  file: path=/etc/pki/etcd/private state=directory mode=755
+
+- name: copy cert file to etcd server
+  copy: src={{ etcd_cert_file_path }} dest=/etc/pki/etcd/etcd.crt
+
+- name: copy key file to etcd server
+  copy: src={{ etcd_key_file_path }} dest=/etc/pki/etcd/private/etcd.key
+
+- name: copy cacert file to etcd server
+  copy: src={{ etcd_cacert_file_path }} dest=/etc/pki/etcd/cacert.pem
+
+- name: create directory for cert releated files
+  file: path=~/etcd_rc_files state=directory mode=755
+
+- name: template etcd rc file
+  template: src=etcd.rc.j2 dest=~/etcd_rc_files/etcd.rc  mode=644 backup=yes
+

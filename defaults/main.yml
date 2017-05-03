@@ -1,9 +1,7 @@
 ---
 # defaults file for etcd
 
-ETCD_DATA_DIR: /var/lib/etcd/default.etcd
+etcd_data_dir: /var/lib/etcd/{{ ansible_hostname }}.etcd
 
-
-
-
-
+etcd_protocol: http
+etcd_tls_enabled: false
