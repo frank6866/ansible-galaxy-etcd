@@ -1,7 +1,11 @@
 # etcd
 
-Ansible role for etcd deployment.
+This role is used to deploy etcd cluster. Supporting features as follows:
 
+* etcd standalone deployment with one member
+* etcd cluster deployment with multiple members
+* TLS configuration on peer-to-peer and client-server(This is strongly recommended for safety)
+* Putting root password in rc file and simplify the etcdctl command
 
 ## Inventory file demo
 
@@ -46,6 +50,34 @@ If you want to know how to set up our own CA and sign for cert, please refer thi
 
 If you want to know how to generate the csr files, please refer this link: [https://frank6866.gitbooks.io/linux/content/chapters/db/db-etcd-security.html](https://frank6866.gitbooks.io/linux/content/chapters/db/db-etcd-security.html)
 
+For example, you can run the following commands on CA server(change the IP according to all the etcd_public_ip):
+
+```
+mkdir /tmp/process_csr
+openssl genrsa -out /tmp/process_csr/etcd.key 2048
+openssl req -new -batch -days 3650 -subj /CN=etcd-test -key /tmp/process_csr/etcd.key -reqexts SAN -config <(cat /usr/local/etc/openssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=IP:192.168.168.201,IP:192.168.168.202,IP:192.168.168.203")) -out /tmp/process_csr/etcd.csr
+openssl ca -in /tmp/process_csr/etcd.csr  -extensions SAN -config <(cat /usr/local/etc/openssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=IP:192.168.168.201,IP:192.168.168.202,IP:192.168.168.203"))  -out /tmp/process_csr/etcd.crt
+```
+
+## root password
+This role does not support enable auth because creating root user is interactive. But you can put root password in rc file by setting **etcd_root_password** variable:
+
+```
+etcd_root_password: "change_me"
+```
+
+After you run this role completely, ou can enable auth manually by running the following command(the password of root you set should be the same with **etcd_root_password** variable):
+
+```
+# etcdctl user add root
+New password:
+User root created
+
+# etcdctl auth enable
+Authentication Enabled
+```
+
+Now you can run etcdctl command without using --username option.
 
 ## Example Playbook
 
@@ -57,9 +89,14 @@ If you want to know how to generate the csr files, please refer this link: [http
     - /path/to/etcd/role
 ```
 
-## Verfiy
-After ansible role runs completely, you can use the following command to verfiy cluster status:
+## Verify
+If you donot config TLS for etcd, you can just run the following command to check the status of etcd cluster:
 
+```
+# etcdctl cluster-health
+```
+
+### TLS Verify
 If you use https, please source the following file first:
 
 ```
@@ -75,7 +112,6 @@ member 83bf297f97d95dfe is healthy: got healthy result from https://192.168.168.
 member f7cfe6dc3f0c089b is healthy: got healthy result from https://192.168.168.203:2379
 cluster is healthy
 ```
-
 
 License
 -------

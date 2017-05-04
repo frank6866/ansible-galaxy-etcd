@@ -18,3 +18,5 @@
 - name: template etcd rc file
   template: src=etcd.rc.j2 dest=~/etcd_rc_files/etcd.rc  mode=644 backup=yes
 
+- name: source ~/etcd_rc_files/etcd.rc
+  shell: source ~/etcd_rc_files/etcd.rc

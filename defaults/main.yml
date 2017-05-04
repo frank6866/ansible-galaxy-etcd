@@ -4,4 +4,6 @@
 etcd_data_dir: /var/lib/etcd/{{ ansible_hostname }}.etcd
 
 etcd_protocol: http
-etcd_tls_enabled: false
+etcd_tls_enabled: 'false'
+
+etcd_root_password: ""
