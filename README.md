@@ -77,7 +77,11 @@ User root created
 Authentication Enabled
 ```
 
-Now you can run etcdctl command without using --username option.
+If you enable auth, you should reovke guest role permission for security:
+
+```
+# etcdctl role revoke guest --path=/* --readwrite
+```
 
 ## Example Playbook
 

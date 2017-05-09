@@ -7,3 +7,4 @@ etcd_protocol: http
 etcd_tls_enabled: 'false'
 
 etcd_root_password: ""
+

@@ -1,1 +1,6 @@
-alias etcdctl='ETCDCTL_USERNAME=root:{{ etcd_root_password }} ETCDCTL_ENDPOINT=https://{{ etcd_public_ip }}:2379 ETCDCTL_CERT_FILE=/etc/pki/etcd/etcd.crt ETCDCTL_KEY_FILE=/etc/pki/etcd/private/etcd.key ETCDCTL_CA_FILE=/etc/pki/etcd/cacert.pem etcdctl'
+export ETCDCTL_USERNAME=root:{{ etcd_root_password }}
+export ETCDCTL_ENDPOINT={{ etcd_protocol }}://{{ etcd_public_ip }}:2379
+export ETCDCTL_CERT_FILE=/etc/pki/etcd/etcd.crt
+export ETCDCTL_KEY_FILE=/etc/pki/etcd/private/etcd.key
+export ETCDCTL_CA_FILE=/etc/pki/etcd/cacert.pem
+
