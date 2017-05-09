@@ -83,6 +83,8 @@ If you enable auth, you should reovke guest role permission for security:
 # etcdctl role revoke guest --path=/* --readwrite
 ```
 
+But if you use Kubernetes storing data in etcd, you should not reovke guest permission, because Kubernetes does not support etcd authentication.
+
 ## Example Playbook
 
 ```
